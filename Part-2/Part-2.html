@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>AR Velociraptor Models with Animation and Sound</title>
+  <title>AR Dinosaur Models with Animation and Sound</title>
 
   <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
@@ -20,21 +20,22 @@
 
     <!-- Load models and audio -->
     <a-assets>
-      <a-asset-item id="macrothorax" src="Raptor_Blue.glb"></a-asset-item>
-      <a-asset-item id="tyranno" src="Raptor_Blue.glb"></a-asset-item>
-      <audio id="velociraptorSound" src="velociraptor.mp3"></audio>
+      <a-asset-item id="carcharodontosaurus" src="carcharodontosaurus.glb"></a-asset-item>
+      <a-asset-item id="officer_with_gun" src="stylized_sci-fi_officer_with_gun_animated.glb"></a-asset-item>
+      <audio id="dino1" src="dino1.wav"></audio>
     </a-assets>
 
     <!-- Marker: shows models and plays sound when visible -->
     <a-marker preset="hiro" id="marker">
-      <a-entity gltf-model="#macrothorax" animation-mixer position="-1 0 0" scale="1 1 1" rotation="0 90 0">
-      </a-entity>
-      <a-entity gltf-model="#macrothorax" animation-mixer position="-2 1 0" scale="1 1 1" rotation="0 65 0">
-      </a-entity>
-      <a-entity gltf-model="#tyranno" animation-mixer position="1 0 0" scale="2 2 2" rotation="0 270 0">
+      <!-- First model (original) -->
+      <a-entity gltf-model="#carcharodontosaurus" animation-mixer position="-2 0 0" scale="0.4 0.4 0.4" rotation="0 90 0">
       </a-entity>
 
-      <a-entity id="soundEntity" sound="src: #velociraptorSound; autoplay: false; loop: true; positional: true">
+      <!-- Second model (officer_with_gun) -->
+      <a-entity gltf-model="#officer_with_gun" animation-mixer position="3 0 0" scale="1 1 1" rotation="0 180 0">
+      </a-entity>
+
+      <a-entity id="soundEntity" sound="src: #dino1; autoplay: false; loop: true; positional: true">
       </a-entity>
     </a-marker>
 
@@ -45,7 +46,7 @@
   <!-- Unlock Audio on Click -->
   <script>
     window.addEventListener('click', () => {
-      const audio = document.querySelector('#velociraptorSound');
+      const audio = document.querySelector('#dino1');
       audio.play().then(() => {
         audio.pause();
         console.log("Audio context unlocked by user interaction.");
