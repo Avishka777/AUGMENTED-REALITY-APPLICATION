@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>AR Elephant Model with Animation and Sound</title>
+
+  <!-- A-Frame -->
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+  <!-- AR.js -->
+  <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/2.1.8/aframe/build/aframe-ar.min.js"></script>
+
+  <!-- A-Frame Extras (for animation mixer) -->
+  <script src="https://cdn.jsdelivr.net/npm/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+</head>
+
+<body style="margin: 0; overflow: hidden;">
+  <a-scene embedded arjs>
+
+    <!-- Load models and audio -->
+    <a-assets>
+      <a-asset-item id="model" src="amazing_dinoworld_maip_macrothorax.glb"></a-asset-item>
+      <audio id="deerSound" src="deer.mp3"></audio>
+    </a-assets>
+
+    <!-- Marker: shows model and plays sound when visible -->
+    <a-marker preset="hiro" id="marker">
+      <a-entity gltf-model="#model" animation-mixer position="0 0 0" scale="4 4 4" rotation="0 180 0">
+      </a-entity>
+
+      <a-entity id="soundEntity" sound="src: #deerSound; autoplay: false; loop: true; positional: true">
+      </a-entity>
+    </a-marker>
+
+    <!-- Camera -->
+    <a-entity camera></a-entity>
+  </a-scene>
+
+  <!-- Unlock Audio on Click -->
+  <script>
+    window.addEventListener('click', () => {
+      const audio = document.querySelector('#deerSound');
+      audio.play().then(() => {
+        audio.pause();
+        console.log("Audio context unlocked by user interaction.");
+      }).catch(e => {
+        console.warn("User interaction required for audio:", e);
+      });
+    });
+  </script>
+
+  <!-- Marker Event Listeners -->
+  <script>
+    const marker = document.querySelector("#marker");
+    const soundEntity = document.querySelector("#soundEntity");
+
+    marker.addEventListener("markerFound", () => {
+      console.log("Marker Found");
+      soundEntity.components.sound.playSound();
+    });
+
+    marker.addEventListener("markerLost", () => {
+      console.log("Marker Lost");
+      soundEntity.components.sound.stopSound();
+    });
+  </script>
+</body>
+
+</html>
